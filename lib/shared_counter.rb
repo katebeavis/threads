@@ -6,7 +6,7 @@ class SharedCounter
     @total = 0
   end
 
-  def counter
+  def count_to_ten
     (1..10).map do |t|
       Thread.new do |t|
         (1..10).each do
@@ -26,5 +26,5 @@ end
 
 shared_counter = SharedCounter.new
 
-shared_counter.counter
+shared_counter.count_to_ten
 puts shared_counter.total
