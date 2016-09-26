@@ -1,6 +1,6 @@
 class SharedCounter
 
-  attr_accessor :total
+  attr_reader :total
 
   def initialize
     @total = 0
@@ -11,7 +11,7 @@ class SharedCounter
       Thread.new do |t|
         (1..10).each do
           temp = @total
-          # is_asleep
+          sleeping
           temp += 1
           @total = temp
         end
@@ -19,13 +19,12 @@ class SharedCounter
     end.each(&:join)
   end
 
-  def is_asleep
+  def sleeping
     sleep(rand(0..1))
   end
 end
 
-# shared_counter = SharedCounter.new
+shared_counter = SharedCounter.new
 
-# shared_counter.counter
-# puts shared_counter.total
-
+shared_counter.counter
+puts shared_counter.total
