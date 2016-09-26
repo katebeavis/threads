@@ -5,21 +5,31 @@ class SharedCounter
   def initialize
     @total = 0
   end
+
+  def counter
+    10.times.map do |t|
+      Thread.new do |t|
+        10.times do
+          temp = @total
+          is_asleep
+          temp += 1
+          @total = temp
+        end
+      end
+    end
+  end
+
+  def sum_threads
+    self.counter.each { |t| t.join }
+  end
+
+  def is_asleep
+    sleep(rand(0..1))
+  end
 end
 
 shared_counter = SharedCounter.new
 
-threads = 10.times.map do |t|
-  Thread.new(t) do |t|
-    10.times do
-      temp = shared_counter.total
-      # sleep(0.1)
-      temp += 1
-      shared_counter.total = temp
-    end
-  end
-end
-
-threads.each { |t| t.join }
+shared_counter.sum_threads
 puts shared_counter.total
 
