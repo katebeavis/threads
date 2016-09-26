@@ -7,20 +7,16 @@ class SharedCounter
   end
 
   def counter
-    10.times.map do |t|
+    (1..10).map do |t|
       Thread.new do |t|
-        10.times do
+        (1..10).each do
           temp = @total
-          is_asleep
+          # is_asleep
           temp += 1
           @total = temp
         end
       end
-    end
-  end
-
-  def sum_threads
-    self.counter.each { |t| t.join }
+    end.each(&:join)
   end
 
   def is_asleep
@@ -28,8 +24,8 @@ class SharedCounter
   end
 end
 
-shared_counter = SharedCounter.new
+# shared_counter = SharedCounter.new
 
-shared_counter.sum_threads
-puts shared_counter.total
+# shared_counter.counter
+# puts shared_counter.total
 
