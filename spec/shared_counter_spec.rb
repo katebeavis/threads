@@ -12,9 +12,17 @@ describe 'shared_counter' do
   end
 
   context 'with sleep enabled' do
-    it 'does NOT sum values up to 100' do
+    it 'sums values up to at least 10' do
+      shared_counter.count_to_ten
       allow(shared_counter).to receive(:sleeping).and_return(sleep(rand(0..1)))
-      expect(shared_counter.count_to_ten).to_not eq(100)
+      expect(shared_counter.total).to be >= 10
+    end
+
+
+    it 'does NOT sum values up to 100' do
+      shared_counter.count_to_ten
+      allow(shared_counter).to receive(:sleeping).and_return(sleep(rand(0..1)))
+      expect(shared_counter.total).to_not eq(100)
     end
   end
 end
